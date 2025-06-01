@@ -6,7 +6,8 @@ import {
 
 import type { ITrack, ITracksListState } from "@/types";
 
-import { API_BASE_URL } from "@/lib/constants";
+import { getGenresApi, getTrackBySlugApi, getTracksApi } from "@/lib/api";
+import { unwrapResult } from "@/lib/unwrapResult";
 import { createGetTracksQueryParams } from "@/lib/createGetTracksQueryParams";
 
 export interface GetTracksQueryResult {
@@ -22,14 +23,8 @@ export const useGetTracks = (
     queryFn: async () => {
       const queryParams = createGetTracksQueryParams(params);
 
-      const response = await fetch(API_BASE_URL + `/tracks?${queryParams}`);
-
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(`Something went wrong. ${data.error} ${data.message}`);
-      }
-
-      return response.json();
+      const result = await getTracksApi(queryParams);
+      return unwrapResult(result);
     },
     placeholderData: keepPreviousData,
   });
@@ -39,14 +34,8 @@ export const useGetGenres = (): UseQueryResult<string[]> =>
   useQuery({
     queryKey: ["genres"],
     queryFn: async () => {
-      const response = await fetch(API_BASE_URL + "/genres");
-
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(`Something went wrong. ${data.error}  ${data.message}`);
-      }
-
-      return response.json();
+      const result = await getGenresApi();
+      return unwrapResult(result);
     },
   });
 
@@ -58,14 +47,8 @@ export const useGetTrackBySlug = ({
   useQuery({
     queryKey: ["track", slug],
     queryFn: async () => {
-      const response = await fetch(API_BASE_URL + `/tracks/${slug}`);
-
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(`Something went wrong. ${data.error}  ${data.message}`);
-      }
-
-      return response.json();
+      const result = await getTrackBySlugApi(slug);
+      return unwrapResult(result);
     },
     enabled: !!slug,
   });
