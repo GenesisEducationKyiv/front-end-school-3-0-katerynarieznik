@@ -1,4 +1,4 @@
-# ADR 1: Introduce Automated Testing to Improve Maintainability
+# ADR-001: Introduce Automated Testing to Improve Maintainability
 
 ## Context
 
@@ -19,9 +19,31 @@ This decision improves **maintainability** by allowing changes to be tested prog
 
 React Testing Library is chosen because it encourages testing from the user’s perspective and integrates well with component-based UI. Vitest is chosen for its fast startup, great integration with Vite, and modern developer experience.
 
-Also considered:
+### Alternatives considered
+
 - **Not writing tests**: This would save short-term time but increase long-term maintenance costs.
 - **End-to-end testing with Playwright or Cypress**: These powerful tools may be excessive for the current project scale and would add complexity without immediate benefit.
+
+## Testing Folder Structure and Naming Conventions
+
+We will organize each component into its own folder under `src/components`, co-locating the component file, its test file, and any related files (e.g., stories, types).
+
+### Guidelines:
+- Use a folder named after the component (e.g., `TrackCard/`).
+- Include `ComponentName.tsx`, `ComponentName.test.tsx`, and other related files inside it.
+- Add an `index.ts` to simplify imports.
+
+### Example layout:
+```
+src/
+├── components/
+│   ├── TrackCard/
+│   │   ├── TrackCard.tsx
+│   │   ├── TrackCard.test.tsx
+│   │   └── index.ts
+```
+
+This structure enhances modularity, discoverability, and scales well as the codebase grows.
 
 ## Status
 
