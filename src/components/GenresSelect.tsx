@@ -1,8 +1,8 @@
 import { Check, PlusCircle, X } from "lucide-react";
-import { ControllerRenderProps } from "react-hook-form";
+import type { ControllerRenderProps } from "react-hook-form";
 
 import { cn } from "@/lib/utils";
-import { TTrackForm } from "@/types";
+import type { TTrackForm } from "@/types";
 import { useGetGenres } from "@/queries";
 import { getGenresDropdownOptions } from "@/lib/mappers";
 

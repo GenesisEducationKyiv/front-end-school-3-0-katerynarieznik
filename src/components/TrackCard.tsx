@@ -1,4 +1,4 @@
-import { ITrack } from "@/types";
+import type { ITrack } from "@/types";
 import { cn } from "@/lib/utils";
 
 import { EditTrack } from "@/components/EditTrack";

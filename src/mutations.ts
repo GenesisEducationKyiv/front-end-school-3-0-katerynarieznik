@@ -1,16 +1,16 @@
 import {
   useMutation,
-  UseMutationResult,
+  type UseMutationResult,
   useQueryClient,
 } from "@tanstack/react-query";
 
-import {
+import type {
   ITrack,
   OptimisticGetTracksQueryResultPartial,
   TTrackForm,
 } from "@/types";
 import { API_BASE_URL } from "@/lib/constants";
-import { GetTracksQueryResult } from "@/queries";
+import type { GetTracksQueryResult } from "@/queries";
 import { useTracksListState } from "@/hooks/useTracksListState";
 
 export const useCreateTrack = () => {

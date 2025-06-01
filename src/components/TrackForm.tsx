@@ -1,6 +1,6 @@
 import { useFormContext } from "react-hook-form";
 
-import { TTrackForm } from "@/types";
+import type { TTrackForm } from "@/types";
 
 import {
   Form,

@@ -13,11 +13,21 @@ export const audioFileFormSchema = z.object({
     .instanceof(FileList)
     .refine((files) => files?.length == 1, "Audio file is required.")
     .refine(
-      (files) => files?.[0]?.size <= MAX_FILE_SIZE,
-      `Max file size is 10MB.`,
+      (files) => {
+        const file = files.item(0);
+        return file && file.size <= MAX_FILE_SIZE;
+      },
+      {
+        message: "Max file size is 10MB.",
+      },
     )
     .refine(
-      (files) => ACCEPTED_FILE_TYPES.includes(files?.[0]?.type),
-      "Only MP3 and WAV files are accepted.",
+      (files) => {
+        const file = files.item(0);
+        return file && ACCEPTED_FILE_TYPES.includes(file.type);
+      },
+      {
+        message: "Only MP3 and WAV files are accepted.",
+      },
     ),
 });

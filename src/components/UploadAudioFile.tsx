@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useGetTracks } from "@/queries";
-import { TAudioFileForm } from "@/types";
+import type { TAudioFileForm } from "@/types";
 import { useUploadAudioFile } from "@/mutations";
 import { useTracksListState } from "@/hooks/useTracksListState";
 
@@ -56,8 +56,15 @@ export function UploadAudioFile({ id }: { id: string }) {
   const fileRef = uploadAudioForm.register("audioFile");
 
   function handleSubmit(values: TAudioFileForm) {
+    const file = values.audioFile?.[0];
+
+    if (!file) {
+      toast.error(<ToastMessage type="error">No file selected.</ToastMessage>);
+      return;
+    }
+
     const formData = new FormData();
-    formData.append("audioFile", values.audioFile[0]);
+    formData.append("audioFile", file);
 
     const mutationPromise = uploadAudioFile(formData, {
       onSuccess: () => {

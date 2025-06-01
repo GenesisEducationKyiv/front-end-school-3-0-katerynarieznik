@@ -1,10 +1,10 @@
 import {
   useQuery,
-  UseQueryResult,
+  type UseQueryResult,
   keepPreviousData,
 } from "@tanstack/react-query";
 
-import { ITrack, ITracksListState } from "@/types";
+import type { ITrack, ITracksListState } from "@/types";
 
 import { API_BASE_URL } from "@/lib/constants";
 import { createGetTracksQueryParams } from "@/lib/createGetTracksQueryParams";

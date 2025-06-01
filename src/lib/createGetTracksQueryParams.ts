@@ -1,4 +1,4 @@
-import { ITracksListState } from "@/types";
+import type { ITracksListState } from "@/types";
 import { TRACKS_PER_PAGE } from "@/lib/constants";
 
 export const createGetTracksQueryParams = (query: ITracksListState) => {

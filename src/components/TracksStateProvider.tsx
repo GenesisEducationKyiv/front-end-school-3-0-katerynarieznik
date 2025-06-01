@@ -1,5 +1,5 @@
 import React from "react";
-import { ITracksListState } from "@/types";
+import type { ITracksListState } from "@/types";
 
 interface ITracksStateContext {
   tracksListState: ITracksListState;
