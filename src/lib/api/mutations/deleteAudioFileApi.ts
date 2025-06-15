@@ -11,7 +11,7 @@ export async function deleteAudioFileApi(
 
     if (!response.ok) {
       const data = await response.json();
-      return err(new Error(data?.error || "Failed to delete audio file"));
+      return err(new Error(data?.error ?? "Failed to delete audio file"));
     }
 
     return ok("Track's audio file deleted successfully");

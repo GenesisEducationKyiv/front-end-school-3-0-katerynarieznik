@@ -11,7 +11,7 @@ export async function deleteTrackApi(
 
     if (!response.ok) {
       const data = await response.json();
-      return err(new Error(data?.error || "Failed to delete track"));
+      return err(new Error(data?.error ?? "Failed to delete track"));
     }
 
     return ok("Track deleted successfully");

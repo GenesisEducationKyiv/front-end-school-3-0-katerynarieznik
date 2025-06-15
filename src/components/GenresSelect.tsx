@@ -24,8 +24,10 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Loader } from "@/components/Loader";
 
+const emptyArray: string[] = [];
+
 export function GenresSelect({
-  value = [],
+  value = emptyArray,
   onChange,
   disabled,
   ...props
@@ -42,8 +44,8 @@ export function GenresSelect({
             size="sm"
             type="button"
             className="h-8 max-w-40 border-dashed"
-            disabled={disabled || isLoading}
-            aria-disabled={disabled || isLoading}
+            disabled={disabled ?? isLoading}
+            aria-disabled={disabled ?? isLoading}
             {...props}
           >
             {isLoading ? (

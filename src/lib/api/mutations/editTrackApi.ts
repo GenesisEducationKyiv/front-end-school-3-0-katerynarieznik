@@ -18,7 +18,7 @@ export async function editTrackApi(
     const data = await response.json();
 
     if (!response.ok) {
-      return err(new Error(data?.error || "Track update failed"));
+      return err(new Error(data?.error ?? "Track update failed"));
     }
 
     return ok(data as ITrack);

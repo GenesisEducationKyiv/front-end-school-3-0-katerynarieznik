@@ -1,14 +1,5 @@
 import React from "react";
-
-interface IAudioPlayerContext {
-  currentlyPlayingId: string | null;
-  setCurrentlyPlayingId: (id: string | null) => void;
-}
-
-export const AudioPlayerContext = React.createContext<IAudioPlayerContext>({
-  currentlyPlayingId: null,
-  setCurrentlyPlayingId: () => {},
-});
+import { AudioPlayerContext } from "@/context/AudioPlayerContext";
 
 export function AudioPlayerProvider({
   children,
@@ -19,11 +10,13 @@ export function AudioPlayerProvider({
     string | null
   >(null);
 
-  return (
-    <AudioPlayerContext.Provider
-      value={{ currentlyPlayingId, setCurrentlyPlayingId }}
-    >
-      {children}
-    </AudioPlayerContext.Provider>
+  const value = React.useMemo(
+    () => ({
+      currentlyPlayingId,
+      setCurrentlyPlayingId,
+    }),
+    [currentlyPlayingId, setCurrentlyPlayingId],
   );
+
+  return <AudioPlayerContext value={value}>{children}</AudioPlayerContext>;
 }

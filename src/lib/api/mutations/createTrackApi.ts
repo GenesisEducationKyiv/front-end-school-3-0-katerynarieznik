@@ -17,7 +17,7 @@ export async function createTrackApi(
     const data = await response.json();
 
     if (!response.ok) {
-      return err(new Error(data?.error || "Track creation failed"));
+      return err(new Error(data?.error ?? "Track creation failed"));
     }
 
     return ok(data as ITrack);

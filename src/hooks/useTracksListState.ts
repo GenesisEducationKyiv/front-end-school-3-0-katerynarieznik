@@ -1,8 +1,8 @@
 import React from "react";
-import { TracksStateContext } from "@/components/TracksStateProvider";
+import { TracksStateContext } from "@/context/TracksStateContext";
 
 export function useTracksListState() {
-  const context = React.useContext(TracksStateContext);
+  const context = React.use(TracksStateContext);
 
   if (context === undefined) {
     console.error(

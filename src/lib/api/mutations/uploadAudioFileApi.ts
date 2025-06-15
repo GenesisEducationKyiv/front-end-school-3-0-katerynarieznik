@@ -15,7 +15,7 @@ export async function uploadAudioFileApi(
     const data = await response.json();
 
     if (!response.ok) {
-      return err(new Error(data?.error || "Upload failed"));
+      return err(new Error(data?.error ?? "Upload failed"));
     }
 
     return ok(data);
