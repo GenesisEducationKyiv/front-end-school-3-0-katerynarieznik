@@ -18,6 +18,8 @@ const queryClient = new QueryClient({
 });
 
 function App() {
+  Object.freeze(Object.prototype); // Security measure for Prototype Pollution vulnerability
+
   const location = window.location.pathname;
 
   React.useEffect(() => {
