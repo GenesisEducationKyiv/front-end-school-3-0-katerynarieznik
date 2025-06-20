@@ -1,25 +1,7 @@
 import React from "react";
-import { ITracksListState } from "@/types";
-
-interface ITracksStateContext {
-  tracksListState: ITracksListState;
-  defaultTracksListState: ITracksListState;
-  setTracksListState: React.Dispatch<React.SetStateAction<ITracksListState>>;
-}
-
-const DEFAULT_TRACKS_LIST_STATE: ITracksListState = {
-  page: 1,
-  search: "",
-  genre: "",
-  artist: "",
-  sortOrder: "createdAt-desc",
-};
-
-export const TracksStateContext = React.createContext<ITracksStateContext>({
-  tracksListState: DEFAULT_TRACKS_LIST_STATE,
-  defaultTracksListState: DEFAULT_TRACKS_LIST_STATE,
-  setTracksListState: () => {},
-});
+import type { ITracksListState } from "@/types";
+import { DEFAULT_TRACKS_LIST_STATE } from "@/lib/constants";
+import { TracksStateContext } from "@/context/TracksStateContext";
 
 export function TracksStateProvider({
   children,
@@ -29,15 +11,14 @@ export function TracksStateProvider({
   const [tracksListState, setTracksListState] =
     React.useState<ITracksListState>(DEFAULT_TRACKS_LIST_STATE);
 
-  return (
-    <TracksStateContext.Provider
-      value={{
-        tracksListState,
-        defaultTracksListState: DEFAULT_TRACKS_LIST_STATE,
-        setTracksListState,
-      }}
-    >
-      {children}
-    </TracksStateContext.Provider>
+  const value = React.useMemo(
+    () => ({
+      tracksListState,
+      defaultTracksListState: DEFAULT_TRACKS_LIST_STATE,
+      setTracksListState,
+    }),
+    [tracksListState],
   );
+
+  return <TracksStateContext value={value}>{children}</TracksStateContext>;
 }

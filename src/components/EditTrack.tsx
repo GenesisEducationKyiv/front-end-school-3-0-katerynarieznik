@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { useEditTrack } from "@/mutations";
-import { ITrack, TTrackForm } from "@/types";
+import type { ITrack, TTrackForm } from "@/types";
 
 import {
   Dialog,

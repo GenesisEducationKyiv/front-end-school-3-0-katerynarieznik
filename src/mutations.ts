@@ -1,17 +1,24 @@
 import {
   useMutation,
-  UseMutationResult,
+  type UseMutationResult,
   useQueryClient,
 } from "@tanstack/react-query";
 
-import {
+import type {
   ITrack,
   OptimisticGetTracksQueryResultPartial,
   TTrackForm,
 } from "@/types";
-import { API_BASE_URL } from "@/lib/constants";
-import { GetTracksQueryResult } from "@/queries";
+import { unwrapResult } from "@/lib/unwrapResult";
+import type { GetTracksQueryResult } from "@/queries";
 import { useTracksListState } from "@/hooks/useTracksListState";
+import {
+  createTrackApi,
+  deleteAudioFileApi,
+  deleteTrackApi,
+  editTrackApi,
+  uploadAudioFileApi,
+} from "@/lib/api";
 
 export const useCreateTrack = () => {
   const queryClient = useQueryClient();
@@ -20,21 +27,8 @@ export const useCreateTrack = () => {
   return useMutation({
     mutationKey: ["createTrack"],
     mutationFn: async (formData) => {
-      const response = await fetch(API_BASE_URL + "/tracks", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error);
-      }
-
-      return data;
+      const result = await createTrackApi(formData);
+      return unwrapResult(result);
     },
     onMutate: async (newTrack: TTrackForm) => {
       // Cancel any outgoing refetches
@@ -99,21 +93,8 @@ export const useEditTrack = ({ id }: { id: string }) => {
   return useMutation({
     mutationKey: ["editTrack"],
     mutationFn: async (formData) => {
-      const response = await fetch(API_BASE_URL + `/tracks/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error);
-      }
-
-      return data;
+      const result = await editTrackApi(id, formData);
+      return unwrapResult(result);
     },
     onMutate: async (updatedTrack: TTrackForm) => {
       await queryClient.cancelQueries({
@@ -161,16 +142,8 @@ export const useDeleteTrack = ({ id }: { id: string }): UseMutationResult => {
   return useMutation({
     mutationKey: ["deleteTrack"],
     mutationFn: async () => {
-      const response = await fetch(API_BASE_URL + `/tracks/${id}`, {
-        method: "DELETE",
-      });
-
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error);
-      }
-
-      return "Track deleted successfully";
+      const result = await deleteTrackApi(id);
+      return unwrapResult(result);
     },
     onMutate: async () => {
       await queryClient.cancelQueries({
@@ -226,20 +199,8 @@ export const useUploadAudioFile = ({
   return useMutation({
     mutationKey: ["uploadAudioFile", id],
     mutationFn: async (formData) => {
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-
-      const response = await fetch(API_BASE_URL + `/tracks/${id}/upload`, {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error);
-      }
-
-      return data;
+      const result = await uploadAudioFileApi(id, formData);
+      return unwrapResult(result);
     },
   });
 };
@@ -255,16 +216,8 @@ export const useDeleteAudioFile = ({
   return useMutation({
     mutationKey: ["deleteAudioFile", id],
     mutationFn: async () => {
-      const response = await fetch(API_BASE_URL + `/tracks/${id}/file`, {
-        method: "DELETE",
-      });
-
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error);
-      }
-
-      return "Track's audio file deleted successfully";
+      const result = await deleteAudioFileApi(id);
+      return unwrapResult(result);
     },
     onMutate: async () => {
       await queryClient.cancelQueries({

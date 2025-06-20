@@ -60,6 +60,9 @@ export function AudioPlayer({ trackId, audioFile }: AudioPlayerProps) {
     if (!audio) return;
 
     const newTime = value[0];
+
+    if (!audio || typeof newTime !== "number") return;
+
     audio.currentTime = newTime;
     setProgress(newTime);
   };
