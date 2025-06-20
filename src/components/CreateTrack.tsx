@@ -4,7 +4,7 @@ import { Plus } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { TTrackForm } from "@/types";
+import type { TTrackForm } from "@/types";
 import { useCreateTrack } from "@/mutations";
 import { trackFormSchema } from "@/lib/trackFormSchema";
 

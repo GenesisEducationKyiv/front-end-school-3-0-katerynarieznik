@@ -25,7 +25,7 @@ export function Search() {
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [inputValue, tracksListState]);
+  }, [inputValue, setTracksListState, tracksListState]);
 
   return (
     <div className="min-w-65">
