@@ -4,7 +4,7 @@ import {
   keepPreviousData,
 } from "@tanstack/react-query";
 
-import type { ITrack, ITracksListState } from "@/types";
+import type { ITrack, ITracksState } from "@/types";
 
 import { getGenresApi, getTrackBySlugApi, getTracksApi } from "@/lib/api";
 import { unwrapResult } from "@/lib/unwrapResult";
@@ -16,7 +16,7 @@ export interface GetTracksQueryResult {
 }
 
 export const useGetTracks = (
-  params: ITracksListState,
+  params: ITracksState,
 ): UseQueryResult<GetTracksQueryResult> => {
   return useQuery({
     queryKey: ["tracks", params],

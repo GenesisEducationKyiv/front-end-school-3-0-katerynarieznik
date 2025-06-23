@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useGetTracks } from "@/queries";
 import type { TAudioFileForm } from "@/types";
 import { useUploadAudioFile } from "@/mutations";
-import { useTracksListState } from "@/hooks/useTracksListState";
+import { useTracksStateStore } from "@/stores/tracksState.store";
 
 import {
   Form,
@@ -41,13 +41,15 @@ import { audioFileFormSchema } from "@/lib/audioFileFormSchema";
 
 export function UploadAudioFile({ id }: { id: string }) {
   const [openDialog, setOpenDialog] = React.useState(false);
-  const { tracksListState } = useTracksListState();
+  const getAllParams = useTracksStateStore((state) => state.getAllParams);
+
+  const params = getAllParams();
 
   const formId = "uploadMusicFileForm";
 
   const { mutateAsync: uploadAudioFile, isPending: isUploading } =
     useUploadAudioFile({ id });
-  const { refetch: refetchTracks } = useGetTracks(tracksListState);
+  const { refetch: refetchTracks } = useGetTracks(params);
 
   const uploadAudioForm = useForm<TAudioFileForm>({
     resolver: zodResolver(audioFileFormSchema),

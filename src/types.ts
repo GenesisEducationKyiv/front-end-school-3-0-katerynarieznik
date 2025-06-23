@@ -20,7 +20,7 @@ export type TTrackForm = z.infer<typeof trackFormSchema>;
 
 export type TAudioFileForm = z.infer<typeof audioFileFormSchema>;
 
-export interface ITracksListState {
+export interface ITracksState {
   page: number;
   search: string;
   genre: string;
