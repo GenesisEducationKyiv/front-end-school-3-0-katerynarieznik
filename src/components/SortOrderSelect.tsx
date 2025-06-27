@@ -1,4 +1,4 @@
-import { useTracksListState } from "@/hooks/useTracksListState";
+import { useTracksStateStore } from "@/stores/tracksState.store";
 
 import {
   Select,
@@ -10,17 +10,14 @@ import {
 } from "@/components/ui/select";
 
 export function SortOrderSelect() {
-  const { tracksListState, setTracksListState } = useTracksListState();
+  const sortOrder = useTracksStateStore((state) => state.sortOrder);
+  const updateSortOrder = useTracksStateStore((state) => state.updateSortOrder);
+
   return (
     <Select
       data-testid="sort-select"
-      value={tracksListState.sortOrder}
-      onValueChange={(value) => {
-        setTracksListState((prev) => ({
-          ...prev,
-          sortOrder: value,
-        }));
-      }}
+      value={sortOrder}
+      onValueChange={updateSortOrder}
     >
       <SelectTrigger className="w-full min-w-50 lg:max-w-50">
         <SelectValue placeholder="Sort by ..." />
