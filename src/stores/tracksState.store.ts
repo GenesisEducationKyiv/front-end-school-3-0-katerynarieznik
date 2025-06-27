@@ -2,7 +2,6 @@ import { create } from "zustand";
 import type { ITracksState } from "@/types";
 
 interface ITracksStore extends ITracksState {
-  getAllParams: () => ITracksState;
   updatePage: (page: number) => void;
   updateSearch: (search: string) => void;
   updateGenre: (genre: string) => void;
@@ -10,20 +9,12 @@ interface ITracksStore extends ITracksState {
   updateSortOrder: (sortOrder: string) => void;
 }
 
-export const useTracksStateStore = create<ITracksStore>((set, get) => ({
+export const useTracksStateStore = create<ITracksStore>((set) => ({
   page: 1,
   search: "",
   genre: "",
   artist: "",
   sortOrder: "createdAt-desc",
-
-  getAllParams: () => ({
-    page: get().page,
-    search: get().search,
-    genre: get().genre,
-    artist: get().artist,
-    sortOrder: get().sortOrder,
-  }),
 
   updatePage: (page) => set(() => ({ page })),
   updateSearch: (search) => set(() => ({ search })),

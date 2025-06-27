@@ -11,7 +11,7 @@ import type {
 } from "@/types";
 import { unwrapResult } from "@/lib/unwrapResult";
 import type { GetTracksQueryResult } from "@/queries";
-import { useTracksStateStore } from "@/stores/tracksState.store";
+import { useTracksStateParams } from "@/hooks/useTracksStateParams";
 import {
   createTrackApi,
   deleteAudioFileApi,
@@ -22,8 +22,7 @@ import {
 
 export const useCreateTrack = () => {
   const queryClient = useQueryClient();
-  const getAllParams = useTracksStateStore((state) => state.getAllParams);
-  const params = getAllParams();
+  const params = useTracksStateParams();
 
   return useMutation({
     mutationKey: ["createTrack"],
@@ -86,8 +85,7 @@ export const useCreateTrack = () => {
 
 export const useEditTrack = ({ id }: { id: string }) => {
   const queryClient = useQueryClient();
-  const getAllParams = useTracksStateStore((state) => state.getAllParams);
-  const params = getAllParams();
+  const params = useTracksStateParams();
 
   return useMutation({
     mutationKey: ["editTrack"],
@@ -133,8 +131,7 @@ export const useEditTrack = ({ id }: { id: string }) => {
 
 export const useDeleteTrack = ({ id }: { id: string }): UseMutationResult => {
   const queryClient = useQueryClient();
-  const getAllParams = useTracksStateStore((state) => state.getAllParams);
-  const params = getAllParams();
+  const params = useTracksStateParams();
 
   return useMutation({
     mutationKey: ["deleteTrack"],
@@ -205,8 +202,7 @@ export const useDeleteAudioFile = ({
   id: string;
 }): UseMutationResult => {
   const queryClient = useQueryClient();
-  const getAllParams = useTracksStateStore((state) => state.getAllParams);
-  const params = getAllParams();
+  const params = useTracksStateParams();
 
   return useMutation({
     mutationKey: ["deleteAudioFile", id],

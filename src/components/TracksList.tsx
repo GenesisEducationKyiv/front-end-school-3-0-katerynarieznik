@@ -1,15 +1,13 @@
 import { range } from "@/lib/utils";
 import { useGetTracks } from "@/queries";
 import { TRACKS_PER_PAGE } from "@/lib/constants";
-import { useTracksStateStore } from "@/stores/tracksState.store";
+import { useTracksStateParams } from "@/hooks/useTracksStateParams";
 
 import { TrackCard } from "@/components/TrackCard";
 import { TrackCardSkeleton } from "./TrackCardSkeleton";
 
 export function TracksList() {
-  const getAllParams = useTracksStateStore((state) => state.getAllParams);
-
-  const params = getAllParams();
+  const params = useTracksStateParams();
 
   const { data, isLoading, isError, error } = useGetTracks(params);
 

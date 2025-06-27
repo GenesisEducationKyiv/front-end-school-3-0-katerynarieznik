@@ -6,12 +6,12 @@ import { Filters } from "@/components/Filters";
 import { TracksList } from "@/components/TracksList";
 import { SortOrderSelect } from "@/components/SortOrderSelect";
 import { TracksPagination } from "@/components/TracksPagination";
+import { useTracksStateParams } from "@/hooks/useTracksStateParams";
 
 export function TracksPage() {
   const page = useTracksStateStore((state) => state.page);
   const updatePage = useTracksStateStore((state) => state.updatePage);
-  const getAllParams = useTracksStateStore((state) => state.getAllParams);
-  const params = getAllParams();
+  const params = useTracksStateParams();
 
   const { data, isLoading } = useGetTracks(params);
 
