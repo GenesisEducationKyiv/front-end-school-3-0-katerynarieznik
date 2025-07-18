@@ -1,0 +1,48 @@
+import React from "react";
+import { Search as SearchIcon } from "lucide-react";
+
+import { DEBOUNCE_TIMEOUT } from "@/lib/constants";
+import { useTracksStateStore } from "@/stores/tracksState.store";
+
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
+export function Search() {
+  const [inputValue, setInputValue] = React.useState("");
+  const search = useTracksStateStore((state) => state.search);
+  const updateSearch = useTracksStateStore((state) => state.updateSearch);
+  const updatePage = useTracksStateStore((state) => state.updatePage);
+
+  React.useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (inputValue !== search) {
+        updateSearch(inputValue);
+        updatePage(1);
+      }
+    }, DEBOUNCE_TIMEOUT);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [inputValue, search, updatePage, updateSearch]);
+
+  return (
+    <div className="min-w-65">
+      <Label htmlFor="search" className="sr-only">
+        Search
+      </Label>
+      <div className="relative">
+        <Input
+          id="search"
+          data-testid="search-input"
+          type="search"
+          placeholder="Search by title, artist or album"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          className="bg-background focus-visible:ring-sidebar-ring h-9 w-full pl-8 shadow-none focus-visible:ring-2"
+        />
+        <SearchIcon className="pointer-events-none absolute top-1/2 left-2 size-4 -translate-y-1/2 opacity-50 select-none" />
+      </div>
+    </div>
+  );
+}
