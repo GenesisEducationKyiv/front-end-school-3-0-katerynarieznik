@@ -11,7 +11,7 @@ import type {
 } from "@/types";
 import { unwrapResult } from "@/lib/unwrapResult";
 import type { GetTracksQueryResult } from "@/queries";
-import { useTracksListState } from "@/hooks/useTracksListState";
+import { useTracksStateParams } from "@/hooks/useTracksStateParams";
 import {
   createTrackApi,
   deleteAudioFileApi,
@@ -22,7 +22,7 @@ import {
 
 export const useCreateTrack = () => {
   const queryClient = useQueryClient();
-  const { tracksListState } = useTracksListState();
+  const params = useTracksStateParams();
 
   return useMutation({
     mutationKey: ["createTrack"],
@@ -34,18 +34,15 @@ export const useCreateTrack = () => {
       // Cancel any outgoing refetches
       // (so they don't overwrite our optimistic update)
       await queryClient.cancelQueries({
-        queryKey: ["tracks", tracksListState],
+        queryKey: ["tracks", params],
       });
 
       // Snapshot the previous value
-      const previousTracks = queryClient.getQueryData([
-        "tracks",
-        tracksListState,
-      ]);
+      const previousTracks = queryClient.getQueryData(["tracks", params]);
 
       // Optimistically update to the new value
       queryClient.setQueryData<OptimisticGetTracksQueryResultPartial>(
-        ["tracks", tracksListState],
+        ["tracks", params],
         (old) => {
           if (!old) return;
 
@@ -77,18 +74,18 @@ export const useCreateTrack = () => {
     },
     onError: (_, __, context) => {
       queryClient.setQueryData(
-        ["tracks", tracksListState],
+        ["tracks", params],
         context?.previousTracks ?? {},
       );
     },
     onSettled: () =>
-      queryClient.invalidateQueries({ queryKey: ["tracks", tracksListState] }),
+      queryClient.invalidateQueries({ queryKey: ["tracks", params] }),
   });
 };
 
 export const useEditTrack = ({ id }: { id: string }) => {
   const queryClient = useQueryClient();
-  const { tracksListState } = useTracksListState();
+  const params = useTracksStateParams();
 
   return useMutation({
     mutationKey: ["editTrack"],
@@ -98,16 +95,13 @@ export const useEditTrack = ({ id }: { id: string }) => {
     },
     onMutate: async (updatedTrack: TTrackForm) => {
       await queryClient.cancelQueries({
-        queryKey: ["tracks", tracksListState],
+        queryKey: ["tracks", params],
       });
 
-      const previousTracks = queryClient.getQueryData([
-        "tracks",
-        tracksListState,
-      ]);
+      const previousTracks = queryClient.getQueryData(["tracks", params]);
 
       queryClient.setQueryData<OptimisticGetTracksQueryResultPartial>(
-        ["tracks", tracksListState],
+        ["tracks", params],
         (old) => {
           if (!old) return;
 
@@ -126,18 +120,18 @@ export const useEditTrack = ({ id }: { id: string }) => {
     },
     onError: (_, __, context) => {
       queryClient.setQueryData(
-        ["tracks", tracksListState],
+        ["tracks", params],
         context?.previousTracks ?? {},
       );
     },
     onSettled: () =>
-      queryClient.invalidateQueries({ queryKey: ["tracks", tracksListState] }),
+      queryClient.invalidateQueries({ queryKey: ["tracks", params] }),
   });
 };
 
 export const useDeleteTrack = ({ id }: { id: string }): UseMutationResult => {
   const queryClient = useQueryClient();
-  const { tracksListState } = useTracksListState();
+  const params = useTracksStateParams();
 
   return useMutation({
     mutationKey: ["deleteTrack"],
@@ -147,16 +141,13 @@ export const useDeleteTrack = ({ id }: { id: string }): UseMutationResult => {
     },
     onMutate: async () => {
       await queryClient.cancelQueries({
-        queryKey: ["tracks", tracksListState],
+        queryKey: ["tracks", params],
       });
 
-      const previousTracks = queryClient.getQueryData([
-        "tracks",
-        tracksListState,
-      ]);
+      const previousTracks = queryClient.getQueryData(["tracks", params]);
 
       queryClient.setQueryData<GetTracksQueryResult>(
-        ["tracks", tracksListState],
+        ["tracks", params],
         (old) => {
           if (!old) return;
 
@@ -182,12 +173,12 @@ export const useDeleteTrack = ({ id }: { id: string }): UseMutationResult => {
     },
     onError: (_, __, context) => {
       queryClient.setQueryData(
-        ["tracks", tracksListState],
+        ["tracks", params],
         context?.previousTracks ?? {},
       );
     },
     onSettled: () =>
-      queryClient.invalidateQueries({ queryKey: ["tracks", tracksListState] }),
+      queryClient.invalidateQueries({ queryKey: ["tracks", params] }),
   });
 };
 
@@ -211,7 +202,7 @@ export const useDeleteAudioFile = ({
   id: string;
 }): UseMutationResult => {
   const queryClient = useQueryClient();
-  const { tracksListState } = useTracksListState();
+  const params = useTracksStateParams();
 
   return useMutation({
     mutationKey: ["deleteAudioFile", id],
@@ -221,16 +212,13 @@ export const useDeleteAudioFile = ({
     },
     onMutate: async () => {
       await queryClient.cancelQueries({
-        queryKey: ["tracks", tracksListState],
+        queryKey: ["tracks", params],
       });
 
-      const previousTracks = queryClient.getQueryData([
-        "tracks",
-        tracksListState,
-      ]);
+      const previousTracks = queryClient.getQueryData(["tracks", params]);
 
       queryClient.setQueryData<GetTracksQueryResult>(
-        ["tracks", tracksListState],
+        ["tracks", params],
         (old) => {
           if (!old) return;
 
@@ -249,11 +237,11 @@ export const useDeleteAudioFile = ({
     },
     onError: (_, __, context) => {
       queryClient.setQueryData(
-        ["tracks", tracksListState],
+        ["tracks", params],
         context?.previousTracks ?? {},
       );
     },
     onSettled: () =>
-      queryClient.invalidateQueries({ queryKey: ["tracks", tracksListState] }),
+      queryClient.invalidateQueries({ queryKey: ["tracks", params] }),
   });
 };

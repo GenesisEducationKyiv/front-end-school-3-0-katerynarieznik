@@ -4,7 +4,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { TracksStateProvider } from "@/components/TracksStateProvider";
 import { AudioPlayerProvider } from "@/components/AudioPlayerProvider";
 
 import { TracksPage } from "@/pages/TracksPage";
@@ -28,13 +27,11 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <TracksStateProvider>
-        <AudioPlayerProvider>
-          <TooltipProvider>
-            {location === "/tracks" ? <TracksPage /> : null}
-          </TooltipProvider>
-        </AudioPlayerProvider>
-      </TracksStateProvider>
+      <AudioPlayerProvider>
+        <TooltipProvider>
+          {location === "/tracks" ? <TracksPage /> : null}
+        </TooltipProvider>
+      </AudioPlayerProvider>
       <Toaster position="top-right" richColors />
       <ReactQueryDevtools />
     </QueryClientProvider>
